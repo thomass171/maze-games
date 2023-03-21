@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Maze Games</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Viewport from w3.css-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="mazegames.css">
+</head>
+
+<body>
+<!--
+Reminder:
+w3-card-2:  Container for any HTML content (2px bordered shadow)
+w3-half: Half (1/2) screen column container
+w3-row-padding: Row where all columns have a default padding (Responsive Class)
+w3-section:	Adds an 16px top and bottom margin to an element (Margin Class)
+w3-container: HTML container with 16px left and right padding (Container Class)
+-->
+<!-- Navigation (Stays on Top) -->
+<div class="w3-top">
+    <div class="w3-bar w3-light-gray">
+
+        <button onclick="switchView('homeview')" class="w3-padding-large w3-bar-item w3-button">Home</button>
+        <button onclick="switchView('listview')" class="w3-padding-large w3-bar-item w3-button">Games</button>
+        <button onclick="switchView('serverview')" class="w3-padding-large w3-bar-item w3-button">Server
+            <div id="serverStates"></div>
+        </button>
+        <div class="w3-dropdown-hover w3-hide-small">
+            <button class="w3-padding-large w3-button">More <i class="fa fa-caret-down"></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <button onclick="switchView('gameplayview')" class="w3-bar-item w3-button">Game Play</button>
+                <button onclick="switchView('listview')" class="w3-bar-item w3-button">Maze List</button>
+                <button onclick="switchView('serverview')" class="w3-bar-item w3-button">Server</button>
+                <button onclick="switchView('creditsview')" class="w3-bar-item w3-button">Credits</button>
+                <button onclick="switchView('settingsview')" class="w3-bar-item w3-button">Settings</button>
+            </div>
+        </div>
+        <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i
+                class="fa fa-search"></i></a>
+    </div>
+</div>
+
+<!-- break for offset from top-->
+<br><br>
+<br><br>
+
+
+<!-- Start Content -->
+<div class="w3-container">
+
+    <div id="homeview">
+        <!--<h1 class="w3-center">Browser Maze Games</h1>-->
+        <span class="w3-center w3-jumbo w3-hide-small">Browser Maze Games</span><br>
+        <p class="w3-center">(still WiP on <a href="https://github.com/thomass171/maze-games" target="_blank">Github</a>!)
+        </p>
+
+        <p class="w3-xlarge"></p>
+        All maze games are based on the same maze game engine that uses a generic simple ASCII
+        format for defining maze level. The game objective and all possible actions
+        are derived from the level definition. So several different styles of maze games
+        can be defined.
+        <div class="w3-row-padding w3-padding-16">
+            <!--Sokoban-->
+            <div class="w3-third">
+                <div class="w3-card-2">
+                    <div class="w3-container">
+                        <h3>Sokoban</h3>
+                        <div class="w3-container w3-center">
+                            <img src="Maze-S-Preview.png" style="width:100%">
+                        </div>
+                        <p>The famous game in a first person 3D view. Move the boxes to the indicated locations.
+                            This
+                            might
+                            be hard without top view,
+                            so differing to the original its also possible to pull boxes.</p>
+
+                        <select class="w3-select  " id="sel_sceneBox">
+                            <option value="skbn/SokobanWikipedia.txt">Sokoban Wikipedia</option>
+                            <option value="skbn/DavidJoffe.txt:1">DavidJoffe 1</option>
+                            <option value="skbn/DavidJoffe.txt:2">DavidJoffe 2</option>
+                            <option value="skbn/DavidJoffe.txt:3">DavidJoffe 3</option>
+                            <option value="skbn/Sokoban10x10.txt">Sokoban10x10</option>
+                            <option value="skbn/SokobanTrivial.txt">SokobanTrivial</option>
+                        </select>
+                        <p></p>
+
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(false,'sel_sceneBox')">Launch
+                        </button>
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(true,'sel_sceneBox')">Launch VR
+                        </button>
+
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <!--Mazes-->
+            <div class="w3-third">
+                <div class="w3-card-2">
+                    <div class="w3-container">
+                        <h3>Mazes</h3>
+                        <div class="w3-container w3-center">
+                            <img src="Maze-M-Preview.png" style="width:100%">
+                        </div>
+                        <p>Just a maze. No boxes to move and no items to collect. Objective
+                            is to find the exit. But be aware of monster that might bother you.</p>
+
+                        <select class="w3-select  " id="sel_sceneBox1">
+                            <option value="maze/Maze-M-15x10.txt">Maze 15x10</option>
+                            <option value="maze/Maze-M-30x20.txt">Maze 30x20</option>
+                        </select>
+                        <p></p>
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(false,'sel_sceneBox1')">Launch
+                        </button>
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(true,'sel_sceneBox1')">Launch VR
+                        </button>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <!--P-Man-->
+            <div class="w3-third">
+                <div class="w3-card-2">
+                    <div class="w3-container">
+                        <h3>P-Man</h3>
+                        <div class="w3-container w3-center">
+                            <img src="Maze-P-Preview.png" style="width:100%">
+                        </div>
+                        <p>Objective is to collect all diamonds in a maze. Be aware of monster that might bother
+                            you.</p>
+                        <select class="w3-select  " id="sel_sceneBox2">
+                            <option value="maze/Maze-P-Simple.txt">P Simple</option>
+                            <option value="maze/Maze-P-60x20.txt">P 60x20</option>
+                        </select>
+                        <p></p>
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(false,'sel_sceneBox2')">Launch
+                        </button>
+                        <button class=" w3-button  w3-round w3-khaki "
+                                onclick="launchMazeScene(true,'sel_sceneBox2')">Launch VR
+                        </button>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="listview">
+        <div class="w3-container">
+            <h1>Maze List</h1>
+            <ul id="mazelist" class="w3-ul w3-card-4"></ul>
+        </div>
+    </div>
+
+    <div id="detailview">
+        <div class="w3-container">
+            <h1>Maze Grid</h1>
+            <div class="">
+                <div class="">
+                    <div id="mazeeditor"></div>
+                    <!-- table is added programmatically -->
+                </div>
+            </div>
+
+            <div class="">
+                <div class="">
+                    <div>
+                        <button id="btn_save" class=" w3-button w3-round w3-khaki " onclick="save()">Save</button>
+                        <button class=" w3-button w3-round w3-khaki " onclick='switchView("listview")'>Close</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <h1>Result</h1>
+            <div class="">
+                <div class="">
+                    <pre id="resultgrid"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameplayview">
+        <div class="w3-container">
+            <h1>Game Play</h1>
+                <p>Pulling a box needs a gap between box and player. Firing is only possible if the player has bullets
+                    (see inventory) and orthogonally.</p>
+            <h1 class="">User Controls</h1>
+            <p class="">Controlling depends on the platform.</p>
+
+            <div id="acc_usercontrols" class="w3-container w3-show">
+                <div class="w3-row-padding w3-padding-16">
+                    <div class="w3-third">
+                        <div class="w3-card-2">
+                            <div class="w3-container">
+                                <h3>Keyboard</h3>
+                                <p>Use arrow keys for moving and space for firing. Pull box by 'P'.</p>
+                                keys x/y/z can be used to fine tune the cameras
+                                position.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-third">
+                        <div class=" w3-card-2">
+                            <div class="w3-container">
+                                <h3>Touchscreen</h3>
+                                <p>Move by touching segments 3,5,7 on the screen.
+                                    <img src="SegmentGrid.png" style="width:50%">
+                                    Segment 1 is for opening the control menu. Segment 4 is for firing.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-third">
+                        <div class=" w3-card-2">
+                            <div class="w3-container">
+                                <h3>VR</h3>
+                                <p>Use left or right controller stick for moving. Use right trigger to do an action like
+                                    moving a box. The left controller has a wristwatch
+                                    menu with buttons for</p>
+                                <ul>
+                                    <li>Move VR position up/down</li>
+                                    <li>Pulling a box</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="creditsview">
+        <div class="w3-container">
+            <div class="w3-panel w3-padding-large w3-section w3-white">
+                <h1 class="">Credits</h1>
+                <ul class="w3-ul">
+                    <li>Thanks to the team of <a href="https://threejs.org" target="_blank">ThreeJs</a> for their
+                        fantastic
+                        WebGl graphics
+                        engine.
+                    </li>
+                    <li>Sokoban was invented by Hiroyuki Imabayashi and is copyrighted (C) 1982 by Thinking Rabbit Inc.
+                        Japan
+                        and later Falcon Co., Ltd., Japan.
+                    </li>
+                    <li>Thanks to <a href="https://github.com/davidjoffe/sokoban" target="_blank">David Joffe</a> for
+                        releasing 90 of his Sokoban levels to the public domain
+                    </li>
+                    <li>Thanks to the team of <a href="https://jmonkeyengine.org" target="_blank">JMonkeyEngine</a> for
+                        their native Java 3D engine and to the team of <a href="http://legacy.lwjgl.org"
+                                                                          target="_blank">LWJGL</a>
+                        for making it all possible.
+                    </li>
+                    <li>The CSG implementation is copyrighted by <a href="http://madebyevan.com/"
+                                                                    target="_blank">Evan Wallace</a> .
+                    </li>
+                    <li>Unity is copyrighted by <a href="https://unity.com/" target="_blank">Unity Technologies</a>.
+                    </li>
+                    <li>Thanks to <a href="https://github.com/patniemeyer/j2swift" target="_blank">Pat Niemeyer</a> for
+                        his Java to Swift converter, which is the basis for the Java to CS converter.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsview">
+        <div class="w3-container">
+            <div class="w3-panel w3-padding-large w3-section  w3-white">
+                <h1 class="">Launch Settings</h1>
+                <p class="">Common settings for the games launched</p>
+                <div id="row21" class="w3-panel">
+                    <div>
+                        <table>
+                            <tr>
+                                <td>Dev Mode</td>
+                                <td><input type="checkbox" class=" w3-check" id="chk_devMode"></td>
+                            </tr>
+                            <tr>
+                                <td>HUD</td>
+                                <td><input type="checkbox" class=" w3-check" id="chk_hud"></td>
+                            </tr>
+                            <tr>
+                                <td>NearView</td>
+                                <td><input type="checkbox" class=" w3-check" id="chk_nearView"></td>
+                            </tr>
+                            <tr>
+                                <td>VR Control Panel</td>
+                                <td><input class=" " id="inp_ctrlPanel"></td>
+                            </tr>
+                            <tr>
+                                <td>offsetVR</td>
+                                <td><input class=" " id="inp_offsetVR"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Content. Only footer follows (but not for now)-->
+    <!--
+        <div class="w3-bar w3-padding-32 w3-grey">
+            <div class="">
+                <div id="versionInfo"></div>
+            </div>
+        </div>
+        -->
+</div>
+
+<script src="util.js"></script>
+<script src="netutil.js"></script>
+<script src="maze.js"></script>
+<script src="sceneutil.js"></script>
+<script src="mazegames.js"></script>
+
+<script>$(document).ready(function(){init();});</script>
+
+</body>
+</html>
