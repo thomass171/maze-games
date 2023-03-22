@@ -4,7 +4,8 @@
 
 //var host = "http://localhost:8080";
 var host = "https://ts171.de/tcp-22";
-var mazehost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
+var mazeshost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
+var servermanagerhost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 
 // maze name is key
 var allMazesMap = new Map();
@@ -28,7 +29,7 @@ elementTitle.set('S', 'Start');
 elementTitle.set('B', 'Box');
 
 var mazeServiceState = "unknown"
-var sceneServerState = "unknown"
+var serverManagerState = "unknown"
 
 function switchView(view, mazeName) {
     console.log("switchView to ", view);
@@ -46,6 +47,8 @@ function switchView(view, mazeName) {
     $('#creditsview').addClass('w3-hide');
     $('#settingsview').removeClass('w3-show');
     $('#settingsview').addClass('w3-hide');
+    $('#serverview').removeClass('w3-show');
+    $('#serverview').addClass('w3-hide');
 
     if (view == "detailview") {
          $('#detailview').addClass('w3-show');
@@ -73,6 +76,10 @@ function switchView(view, mazeName) {
          $('#settingsview').removeClass('w3-hide');
          $('#settingsview').addClass('w3-show');
     }
+    if (view == "serverview") {
+         $('#serverview').removeClass('w3-hide');
+         $('#serverview').addClass('w3-show');
+    }
 }
 
 function addMazeListElement(maze, contentProvider, optionalElement) {
@@ -88,7 +95,7 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
 }
 
 function refreshStates() {
-    $("#serverStates").html("" + mazeServiceState + "/" + sceneServerState);
+    $("#serverStates").html("" + mazeServiceState + "/" + serverManagerState);
 }
 
 /**
@@ -194,7 +201,7 @@ function addLoadedMazeGrid(m) {
 }
 
 function loadMazes() {
-    httpGet(mazehost + "/mazes", null,
+    httpGet(mazeshost + "/mazes", null,
         function(isJson, jsonObject) {
             console.log(jsonObject);
             jsonObject._embedded.mazes.forEach(addLoadedMazeGrid);
@@ -218,11 +225,23 @@ function init() {
     var hostparam = url.searchParams.get("host");
     if (hostparam != null) {
         host = hostparam;
-        $("#debuginfo").html("(host="+hostparam+")");
     }
+    var mazeshostparam = url.searchParams.get("mazeshost");
+    if (mazeshostparam != null) {
+        mazeshost = mazeshostparam;
+    }
+    var servermanagerhostparam = url.searchParams.get("servermanagerhost");
+    if (servermanagerhostparam != null) {
+        servermanagerhost = servermanagerhostparam;
+    }
+    $("#inp_host").val(host);
+    $("#inp_mazeshost").val(mazeshost);
+    $("#inp_servermanagerhost").val(servermanagerhost);
     refreshStates();
 
     loadMazes();
+
+    loadServerList();
 
     switchView("homeview");
 

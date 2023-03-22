@@ -4,6 +4,8 @@
 <head>
     <title>Maze Games</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="3D maze games to be played in a browser in VR or traditional">
+
     <!--Viewport from w3.css-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -163,6 +165,43 @@ w3-container: HTML container with 16px left and right padding (Container Class)
         </div>
     </div>
 
+    <div id="serverview">
+        <div class="w3-container">
+            <h2>Current server</h2>
+            <table id="tab_server" class="w3-table w3-striped w3-bordered">
+                <thead>
+                <tr class="XXw3-grey">
+                    <th>Grid</th>
+                    <th>Started</th>
+                    <th>Uptime</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="bod_server">
+                </tbody>
+            </table>
+
+            <h2>Start Server</h2>
+            <div class="w3-row-padding">
+                <div class="w3-half">
+                    <select class="w3-select" id="sel_gridBox">
+                        <option value="skbn/SokobanWikipedia.txt">Sokoban Wikipedia</option>
+                        <option value="skbn/DavidJoffe.txt:1">DavidJoffe 1</option>
+                        <option value="skbn/DavidJoffe.txt:2">DavidJoffe 2</option>
+                        <option value="skbn/DavidJoffe.txt:3">DavidJoffe 3</option>
+                        <option value="skbn/Sokoban10x10.txt">Sokoban10x10</option>
+                        <option value="skbn/SokobanTrivial.txt">SokobanTrivial</option>
+                    </select>
+                </div>
+                <div class="w3-half">
+                    <button id="btn_start" class=" w3-button w3-round w3-khaki "
+                            onclick="startServer($('#sel_gridBox').val())">Start
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="detailview">
         <div class="w3-container">
             <h1>Maze Grid</h1>
@@ -197,8 +236,8 @@ w3-container: HTML container with 16px left and right padding (Container Class)
     <div id="gameplayview">
         <div class="w3-container">
             <h1>Game Play</h1>
-                <p>Pulling a box needs a gap between box and player. Firing is only possible if the player has bullets
-                    (see inventory) and orthogonally.</p>
+            <p>Pulling a box needs a gap between box and player. Firing is only possible if the player has bullets
+                (see inventory) and orthogonally.</p>
             <h1 class="">User Controls</h1>
             <p class="">Controlling depends on the platform.</p>
 
@@ -306,6 +345,18 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                                 <td>offsetVR</td>
                                 <td><input class=" " id="inp_offsetVR"></td>
                             </tr>
+                            <tr>
+                                <td>Host</td>
+                                <td><input class=" " id="inp_host"></td>
+                            </tr>
+                            <tr>
+                                <td>Mazes Host</td>
+                                <td><input class=" " id="inp_mazeshost"></td>
+                            </tr>
+                            <tr>
+                                <td>Server Manager Host</td>
+                                <td><input class=" " id="inp_servermanagerhost"></td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -313,13 +364,23 @@ w3-container: HTML container with 16px left and right padding (Container Class)
         </div>
     </div>
 
-    <!-- End Content. Only footer follows (but not for now)-->
+    <!-- End Content -->
+    <!-- break for offset to footer-->
+    <br><br>
+    <!-- . Only footer follows (but not for now)-->
     <!--
         <div class="w3-bar w3-padding-32 w3-grey">
             <div class="">
                 <div id="versionInfo"></div>
             </div>
         </div>
+
+
+    <footer class="w3-container w3-padding-32 w3-blue">
+        <div class="">
+            <div id="versionInfo"></div>
+        </div>
+    </footer>
         -->
 </div>
 
@@ -327,6 +388,7 @@ w3-container: HTML container with 16px left and right padding (Container Class)
 <script src="netutil.js"></script>
 <script src="maze.js"></script>
 <script src="sceneutil.js"></script>
+<script src="servermanager.js"></script>
 <script src="mazegames.js"></script>
 
 <script>$(document).ready(function(){init();});</script>
