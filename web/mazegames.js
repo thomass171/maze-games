@@ -82,6 +82,9 @@ function switchView(view, mazeName) {
     }
 }
 
+/**
+ *
+ */
 function addMazeListElement(maze, contentProvider, optionalElement) {
 
     var table = createTable(null, "mazetable");
@@ -201,7 +204,7 @@ function addLoadedMazeGrid(m) {
 }
 
 function loadMazes() {
-    httpGet(mazeshost + "/mazes", null,
+    httpGet(mazeshost + "/mazes?sort=id", null,
         function(isJson, jsonObject) {
             console.log(jsonObject);
             jsonObject._embedded.mazes.forEach(addLoadedMazeGrid);
