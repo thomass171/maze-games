@@ -204,7 +204,7 @@ function addLoadedMazeGrid(m) {
 }
 
 function loadMazes() {
-    httpGet(mazeshost + "/mazes?sort=id", null,
+    httpGet(mazeshost + "/mazes/mazes?sort=id", null,
         function(isJson, jsonObject) {
             console.log(jsonObject);
             jsonObject._embedded.mazes.forEach(addLoadedMazeGrid);
