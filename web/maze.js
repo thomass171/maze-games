@@ -120,6 +120,7 @@ class Maze {
         this.cols = 0;
         this.selfHref = null;
         this.dirty = false;
+        this.locked = false;
     }
 
     addCell(location, cell) {
@@ -161,6 +162,10 @@ class Maze {
             grid += "\n";
         }
         return grid;
+    }
+
+    isLocked() {
+        return this.locked;
     }
 
     toString() {

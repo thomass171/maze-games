@@ -18,6 +18,18 @@ function launchMazeScene(vr,boxname) {
     launchScene("MazeScene",args);
 }
 
+/**
+ * Launch scene with remote grid.
+ */
+function launchMazeSceneFromList(vr, selfhref) {
+
+    var args = new Map();
+    addCommonArgs(args, "");
+    args.set("initialMaze", selfhref);
+    args.set("enableVR",vr);
+    launchScene("MazeScene",args);
+}
+
 function launchScene(scenename,args) {
 
     const params = new URLSearchParams()

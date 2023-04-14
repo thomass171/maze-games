@@ -146,3 +146,13 @@ function launchScene(scenename,args) {
 
     var win = window.open(url, '_blank');
 }
+
+function showElement(elementId) {
+    $('#' + elementId).addClass('w3-show');
+    $('#' + elementId).removeClass('w3-hide');
+}
+
+function hideElement(elementId) {
+    $('#' + elementId).removeClass('w3-show');
+    $('#' + elementId).addClass('w3-hide');
+}

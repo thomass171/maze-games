@@ -7,7 +7,7 @@ var host = "https://ts171.de/tcp-22";
 var mazeshost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var servermanagerhost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 
-// maze name is key
+// map of class 'Maze' instances. maze name is key.
 var allMazesMap = new Map();
 var mazeInEdit = null;
 
@@ -83,18 +83,85 @@ function switchView(view, mazeName) {
 }
 
 /**
- *
+ * Add a maze grid list element.
  */
 function addMazeListElement(maze, contentProvider, optionalElement) {
 
     var table = createTable(null, "mazetable");
-    var content = "<div onclick='switchView(\"detailview\",\"" + maze.name + "\")' class='w3-bar-item'>";
-    content += "<span class='w3-large'>" + maze.name + "</span><br>" +
-        "<span>" + maze.description + "</span>";
-    content += "<br>" + table.html + "</div>";
+    var content = "<div>";
+    content += "<span class='w3-large'>" + maze.name + "</span>";
+    content += "<br>";
+    content += "<span>" + maze.description + "</span>";
+    content += "<br>" + table.html + "<br>";
 
-    var item_id = addListItem("mazelist", content, "w3-bar");
+    // button bar. 'lock/unlock' are just indicator without action. 'edit opens secret bar
+    var iconStyle = "style='font-size:20px;color:black;'";
+    content += "<div class='w3-bar w3-light-gray'>";
+    var btn_lock = createButton("<i class='fa fa-lock' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    content += btn_lock.html;
+    var btn_unlock = createButton("<i class='fa fa-unlock' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    content += btn_unlock.html;
+    var btn_edit = createButton("<i class='fa fa-edit' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
+    content += btn_edit.html;
+    var btn_play = createButton("<i class='fa fa-play' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
+    content += btn_play.html;
+    content += "</div>"; // end of button bar
+
+    // secret bar
+    var secret_id = "inp_" + getUniqueId();
+    content += "<div id='" + secret_id + "' class='w3-bar w3-white'>";
+    content += "<input class='w3-bar-item' type='password' value='' id='inp_"+secret_id+"'>";
+    var btn_key = createButton("<i class='fa fa-key' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
+    content += btn_key.html;
+    //content += "</span>";
+    content += "</div>"; // end of secret bar
+
+    content += "</div>"; // end of content
+
+    var listitemId = addListItem("mazelist", content, "w3-bar");
     populateHtmlTableForMaze(table.bodyid, maze, previewCellBuilder);
+
+    $("#"+btn_edit.id).click(function() {
+        //not correct? Probably the variable 'btn_edit.id' is set with a different value in the next cycle. So better use 'this'
+        //$("#"+btn_unlock.id).prop("disabled", true);
+        // In general its unclear for now whether to disable the button for preventing reenter because
+        // who is going to enable it again when the user switches view. TODO
+        //$(this).prop('disabled', true);
+        //only visual, does not prevent clicking
+        //$( this ).addClass('w3-disabled');
+
+        var maze = getMazeByListItemId(this.dataset.listitemid);
+        console.log("edit:mazename="+maze.name);
+        switchView("detailview", maze.name);
+    });
+    $("#"+btn_play.id).click(function() {
+
+        var maze = getMazeByListItemId(this.dataset.listitemid);
+        console.log("play:mazename="+maze.name);
+        launchMazeSceneFromList(false, maze.selfHref.replaceAll("http://","https://"));
+    });
+
+    $("#"+listitemId).attr('data-mazename', maze.name);
+    $("#"+btn_lock.id).attr('data-listitemid', listitemId);
+    $("#"+btn_unlock.id).attr('data-listitemid', listitemId);
+    $("#"+btn_edit.id).attr('data-listitemid', listitemId);
+    $("#"+btn_play.id).attr('data-listitemid', listitemId);
+
+    if (maze.isLocked()) {
+        $("#"+btn_edit.id).prop('disabled', true);
+        showElement(btn_lock.id);
+        hideElement(btn_unlock.id);
+    } else {
+        $("#"+btn_edit.id).prop('disabled', false);
+        hideElement(btn_lock.id);
+        showElement(btn_unlock.id);
+    }
+    hideElement(secret_id);
+}
+
+function getMazeByListItemId(listitemid) {
+    var mazeName = $("#"+listitemid).attr('data-mazename');
+    return allMazesMap.get(mazeName);
 }
 
 function refreshStates() {
@@ -161,7 +228,7 @@ function save() {
     var grid = mazeInEdit.getGrid();
     console.log(grid);
     $("#resultgrid").html(grid.replaceAll("\n","<br>"));
-    postData(mazeInEdit.selfHref, { grid: grid.replaceAll("\n","n") })
+    postData(mazeInEdit.selfHref.replaceAll("http://","https://"), { grid: grid.replaceAll("\n","n") })
         .then(data => {
             console.log(data); // JSON data parsed by `data.json()` call
             mazeInEdit.dirty = false;
@@ -199,6 +266,7 @@ function addLoadedMazeGrid(m) {
     maze.name = m.name;
     maze.description = m.description;
     maze.selfHref = m._links.self.href;
+    maze.locked = m.locked;
     allMazesMap.set(m.name, maze);
     addMazeListElement(maze);
 }
