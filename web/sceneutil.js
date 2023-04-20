@@ -30,6 +30,19 @@ function launchMazeSceneFromList(vr, selfhref) {
     launchScene("MazeScene",args);
 }
 
+/**
+ * Launch scene for joining a scene server.
+ */
+function launchMazeForJoining(vr, server) {
+
+    var args = new Map();
+    addCommonArgs(args, "");
+    // No "initialMaze", grid comes from server
+    args.set("server", server);
+    args.set("enableVR",vr);
+    launchScene("MazeScene",args);
+}
+
 function launchScene(scenename,args) {
 
     const params = new URLSearchParams()

@@ -37,25 +37,40 @@ function loadServerList() {
         function(isJson, data) {
             console.log(data);
             removeTableRows("tab_server");
+
+            // rowid is key
+            var allServerMap = new Map();
             data.serverInstanceList.forEach(function(s) {
                 console.log("s:",s);
                 var rowid = addTableRow('bod_server');
+                allServerMap.set(rowid, s);
                 var colid = addTableCol(s.gridname, rowid, "");
                 var colid = addTableCol(s.started, rowid, "");
                 var colid = addTableCol(s.upTime, rowid, "");
                 var colid = addTableCol(s.state, rowid, "");
                 var btn_stop = createButton("Stop", "w3-button w3-round w3-khaki");
                 var colid = addTableCol(btn_stop.html, rowid, "");
+                var btn_join = createButton("Join", "w3-button w3-round w3-khaki");
+                addTableCol(btn_join.html, rowid, "");
 
                 $("#"+btn_stop.id).prop("disabled", s.state != "running");
+                $("#"+btn_stop.id).attr('data-rowid', rowid);
                 $("#"+btn_stop.id).click(function() {
-                     $("#"+btn_stop.id).prop("disabled", true);
-                     httpDelete(servermanagerhost + "/server?id="+s.id, null,
+                     $(this).prop("disabled", true);
+                     var server = allServerMap.get(this.dataset.rowid);
+                     httpDelete(servermanagerhost + "/server?id="+server.id, null,
                          function() {
                              loadServerList();
                          },
                          function() {
                          });
+                });
+                $("#"+btn_join.id).prop("disabled", s.state != "running");
+                $("#"+btn_join.id).attr('data-rowid', rowid);
+                $("#"+btn_join.id).click(function() {
+                     var server = allServerMap.get(this.dataset.rowid);
+                     var port = 443;//5891
+                     launchMazeForJoining(false, sceneserverhost + ":" + port);
                 });
             });
             serverManagerState = "✅";

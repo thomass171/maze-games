@@ -6,6 +6,7 @@
 var host = "https://ts171.de/tcp-22";
 var mazeshost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var servermanagerhost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
+var sceneserverhost = "ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 
 // map of class 'Maze' instances. maze name is key.
 var allMazesMap = new Map();
