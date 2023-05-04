@@ -106,6 +106,8 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
     content += btn_edit.html;
     var btn_play = createButton("<i class='fa fa-play' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
     content += btn_play.html;
+    var btn_launchserver = createButton("<i class='fa fa-forward' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    content += btn_launchserver.html;
     content += "</div>"; // end of button bar
 
     // secret bar
@@ -136,10 +138,15 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
         switchView("detailview", maze.name);
     });
     $("#"+btn_play.id).click(function() {
-
         var maze = getMazeByListItemId(this.dataset.listitemid);
         console.log("play:mazename="+maze.name);
         launchMazeSceneFromList(false, maze.selfHref.replaceAll("http://","https://"));
+    });
+    $("#"+btn_launchserver.id).click(function() {
+        var maze = getMazeByListItemId(this.dataset.listitemid);
+        console.log("btn_launchserver:mazename="+maze.name);
+        startServer(maze.selfHref.replaceAll("http://","https://"));
+        switchView("serverview");
     });
 
     $("#"+listitemId).attr('data-mazename', maze.name);
@@ -147,6 +154,9 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
     $("#"+btn_unlock.id).attr('data-listitemid', listitemId);
     $("#"+btn_edit.id).attr('data-listitemid', listitemId);
     $("#"+btn_play.id).attr('data-listitemid', listitemId);
+    $("#"+btn_play.id).attr('title', 'Launch in new browser tab');
+    $("#"+btn_launchserver.id).attr('data-listitemid', listitemId);
+    $("#"+btn_launchserver.id).attr('title', 'Launch a server for grid');
 
     if (maze.isLocked()) {
         $("#"+btn_edit.id).prop('disabled', true);
@@ -262,7 +272,7 @@ async function postData(url = '', data = {}) {
 
 function addLoadedMazeGrid(m) {
     m.grid = m.grid.replaceAll("\\n","\n");
-    console.log("m:",m);
+    //console.log("m:",m);
     var maze = Maze.buildFromGrid(m.grid);
     maze.name = m.name;
     maze.description = m.description;
@@ -275,7 +285,7 @@ function addLoadedMazeGrid(m) {
 function loadMazes() {
     httpGet(mazeshost + "/mazes/mazes?sort=id", null,
         function(isJson, jsonObject) {
-            console.log(jsonObject);
+            //console.log(jsonObject);
             jsonObject._embedded.mazes.forEach(addLoadedMazeGrid);
             mazeServiceState = "✅";
             refreshStates();
@@ -286,6 +296,16 @@ function loadMazes() {
             refreshStates();
         }
     );
+}
+
+function findMazeById(mazeid) {
+    for (const [key, value] of allMazesMap) {
+        if (value.getId() == mazeid) {
+            return value;
+        }
+    }
+    console.warn("maze not found", mazeid);
+    return null;
 }
 
 /**

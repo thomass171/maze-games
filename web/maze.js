@@ -118,6 +118,8 @@ class Maze {
         this.elements = new Map();
         this.rows = 0;
         this.cols = 0;
+        this.name = null;
+        this.description = null;
         this.selfHref = null;
         this.dirty = false;
         this.locked = false;
@@ -166,6 +168,13 @@ class Maze {
 
     isLocked() {
         return this.locked;
+    }
+
+    getId() {
+        if (this.selfHref == null) {
+            return -1;
+        }
+        return substringAfterLast(this.selfHref, "/");
     }
 
     toString() {

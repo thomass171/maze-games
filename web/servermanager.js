@@ -13,7 +13,7 @@ function populateHtmlTableForServer(bodyid, maze, cellbuilder) {
 }
 
 /**
- * Start a new server
+ * Start a new server. 'gridname' might be a href to a remote grid (Needs to start with 'http').
  */
 function startServer(gridname) {
     $("#btn_start").prop("disabled", true);
@@ -35,17 +35,18 @@ function startServer(gridname) {
 function loadServerList() {
     httpGet(servermanagerhost + "/server/list", null,
         function(isJson, data) {
-            console.log(data);
+            //console.log(data);
             removeTableRows("tab_server");
 
             // rowid is key
             var allServerMap = new Map();
             data.serverInstanceList.forEach(function(s) {
-                console.log("s:",s);
+                //console.log("s:",s);
                 var rowid = addTableRow('bod_server');
                 allServerMap.set(rowid, s);
-                var colid = addTableCol(s.gridname, rowid, "");
+                var colid = addTableCol(enhanceGridname(s.gridname), rowid, "");
                 var colid = addTableCol(s.started, rowid, "");
+                var colid = addTableCol(s.baseport, rowid, "");
                 var colid = addTableCol(s.upTime, rowid, "");
                 var colid = addTableCol(s.state, rowid, "");
                 var btn_stop = createButton("Stop", "w3-button w3-round w3-khaki");
@@ -81,5 +82,19 @@ function loadServerList() {
             serverManagerState = "❌";
             refreshStates();
         });
+}
+
+function enhanceGridname(gridname) {
+    if (gridname.startsWith("http")) {
+        // get readable name from games list
+        var mazeid = substringAfterLast(gridname, "/");
+        //console.log("Looking for maze id " + mazeid);
+        var maze = findMazeById(mazeid);
+        if (maze != null) {
+            // might not yet been loaded
+            return maze.name;
+        }
+    }
+    return gridname;
 }
 

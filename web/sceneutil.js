@@ -21,11 +21,23 @@ function launchMazeScene(vr,boxname) {
 /**
  * Launch scene with remote grid.
  */
-function launchMazeSceneFromList(vr, selfhref) {
+function launchMazeSceneFromList(vr, hrefOfGrid) {
 
     var args = new Map();
     addCommonArgs(args, "");
-    args.set("initialMaze", selfhref);
+    args.set("initialMaze", hrefOfGrid);
+    args.set("enableVR",vr);
+    launchScene("MazeScene",args);
+}
+
+/**
+ * Launch a server for a scene with remote grid.
+ */
+function launchMazeSceneServerFromList(hrefOfGrid) {
+
+    var args = new Map();
+    addCommonArgs(args, "");
+    args.set("initialMaze", hrefOfGrid);
     args.set("enableVR",vr);
     launchScene("MazeScene",args);
 }
