@@ -95,18 +95,25 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
     content += "<span>" + maze.description + "</span>";
     content += "<br>" + table.html + "<br>";
 
-    // button bar. 'lock/unlock' are just indicator without action. 'edit opens secret bar
-    var iconStyle = "style='font-size:20px;color:black;'";
+    // button bar. 'lock/unlock' are just indicator without action. 'edit' opens secret bar
+    // 'fa-2x' is used for sizing icons (even unstacked) instead of 'font-size' so make sure stacked and unstacked have same size.
+    // Though 'fa-2x' is a bit too large.
+    var iconStyle = "style='color:black;'";
     content += "<div class='w3-bar w3-light-gray'>";
-    var btn_lock = createButton("<i class='fa fa-lock' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    var btn_lock = createButton("<i class='fa fa-lock fa-2x' " + iconStyle + "></i>", "w3-bar-item w3-button ");
     content += btn_lock.html;
-    var btn_unlock = createButton("<i class='fa fa-unlock' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    var btn_unlock = createButton("<i class='fa fa-unlock fa-2x' " + iconStyle + "></i>", "w3-bar-item w3-button ");
     content += btn_unlock.html;
-    var btn_edit = createButton("<i class='fa fa-edit' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
+    var btn_edit = createButton("<i class='fa fa-edit fa-2x' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
     content += btn_edit.html;
-    var btn_play = createButton("<i class='fa fa-play' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
+    var btn_play = createButton("<i class='fa fa-play fa-2x' " + iconStyle + "></i>", "w3-bar-item w3-button w3-XXgreen");
     content += btn_play.html;
-    var btn_launchserver = createButton("<i class='fa fa-forward' " + iconStyle + "></i>", "w3-bar-item w3-button ");
+    var btn_playvr = createButton("<span class='fa-stack'><i class='fa fa-play fa-2x' " + iconStyle +
+        "></i><span class='fa-stack-1x' style='margin-top: .3em;color:orange;font-size: 0.9em;'><strong>VR</strong></span></span>",
+         "w3-bar-item w3-button w3-XXgreen");
+    content += btn_playvr.html;
+
+    var btn_launchserver = createButton("<i class='fa fa-forward fa-2x' " + iconStyle + "></i>", "w3-bar-item w3-button ");
     content += btn_launchserver.html;
     content += "</div>"; // end of button bar
 
@@ -142,6 +149,11 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
         console.log("play:mazename="+maze.name);
         launchMazeSceneFromList(false, maze.selfHref.replaceAll("http://","https://"));
     });
+    $("#"+btn_playvr.id).click(function() {
+        var maze = getMazeByListItemId(this.dataset.listitemid);
+        console.log("play:mazename="+maze.name);
+        launchMazeSceneFromList(true, maze.selfHref.replaceAll("http://","https://"));
+    });
     $("#"+btn_launchserver.id).click(function() {
         var maze = getMazeByListItemId(this.dataset.listitemid);
         console.log("btn_launchserver:mazename="+maze.name);
@@ -155,6 +167,8 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
     $("#"+btn_edit.id).attr('data-listitemid', listitemId);
     $("#"+btn_play.id).attr('data-listitemid', listitemId);
     $("#"+btn_play.id).attr('title', 'Launch in new browser tab');
+    $("#"+btn_playvr.id).attr('data-listitemid', listitemId);
+    $("#"+btn_playvr.id).attr('title', 'Launch in new browser tab with VR enabled');
     $("#"+btn_launchserver.id).attr('data-listitemid', listitemId);
     $("#"+btn_launchserver.id).attr('title', 'Launch a server for grid');
 
@@ -341,6 +355,8 @@ function init() {
     // With "ReferenceSpaceType" 'local' instead of 'local-floor' -0.1 is better than -0.9. 0.6 good for 1.80m player in maze
     // But for BasicTravelScene and VrScene 0 seem to be better. So better use a neutral value 0 here initially and let
     // application adjust it. And have a vector3 tuple now.
+    // Avoid blanks in string to avoid URL encoding trouble? But shouldn't cause any trouble. Keep blanks to make
+    // sure URL encoding works.
     $("#inp_offsetVR").val("0.0, 0.0, 0.0");
     // for some unknown reason traffic needs to be lowered
     $("#inp_tf_offsetVR").val("0.0, -1.0, 0.0");
