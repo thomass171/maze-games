@@ -95,7 +95,7 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
     content += "<span>" + maze.description + "</span>";
     content += "<br>" + table.html + "<br>";
 
-    // button bar. 'lock/unlock' are just indicator without action. 'edit' opens secret bar
+    // button bar. 'lock/unlock' are just indicator without action. 'edit' opens secret bar? TODO check, edit is disabled.
     // 'fa-2x' is used for sizing icons (even unstacked) instead of 'font-size' so make sure stacked and unstacked have same size.
     // Though 'fa-2x' is a bit too large.
     var iconStyle = "style='color:black;'";

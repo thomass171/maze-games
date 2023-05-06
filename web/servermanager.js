@@ -53,6 +53,8 @@ function loadServerList() {
                 var colid = addTableCol(btn_stop.html, rowid, "");
                 var btn_join = createButton("Join", "w3-button w3-round w3-khaki");
                 addTableCol(btn_join.html, rowid, "");
+                var btn_joinvr = createButton("Join VR", "w3-button w3-round w3-khaki");
+                addTableCol(btn_joinvr.html, rowid, "");
 
                 $("#"+btn_stop.id).prop("disabled", s.state != "running");
                 $("#"+btn_stop.id).attr('data-rowid', rowid);
@@ -72,6 +74,13 @@ function loadServerList() {
                      var server = allServerMap.get(this.dataset.rowid);
                      // the URL complies to the reverse proxy setup on the server
                      launchMazeForJoining(false, sceneserverhost + ":443:/sceneserver/" + (server.baseport+1) + "/connect");
+                });
+                $("#"+btn_joinvr.id).prop("disabled", s.state != "running");
+                $("#"+btn_joinvr.id).attr('data-rowid', rowid);
+                $("#"+btn_joinvr.id).click(function() {
+                     var server = allServerMap.get(this.dataset.rowid);
+                     // the URL complies to the reverse proxy setup on the server
+                     launchMazeForJoining(true, sceneserverhost + ":443:/sceneserver/" + (server.baseport+1) + "/connect");
                 });
             });
             serverManagerState = "✅";
