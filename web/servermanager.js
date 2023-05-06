@@ -70,8 +70,8 @@ function loadServerList() {
                 $("#"+btn_join.id).attr('data-rowid', rowid);
                 $("#"+btn_join.id).click(function() {
                      var server = allServerMap.get(this.dataset.rowid);
-                     var port = 443;//5891
-                     launchMazeForJoining(false, sceneserverhost + ":" + port);
+                     // the URL complies to the reverse proxy setup on the server
+                     launchMazeForJoining(false, sceneserverhost + ":443:/sceneserver/" + (server.baseport+1) + "/connect");
                 });
             });
             serverManagerState = "✅";
