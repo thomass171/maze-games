@@ -322,6 +322,24 @@ function findMazeById(mazeid) {
     return null;
 }
 
+function refreshCallback() {
+    for (const [key, value] of allServerMap) {
+
+        var server = value;
+        if (server.state == "running") {
+            var statusUrl = "https://" + sceneserverhost + ":443/sceneserver/" + (server.baseport + 1) + "/status";
+
+            httpGet(statusUrl, null,
+                function(isJson, data) {
+                    console.log(data);
+                },
+                function() {
+                    // already logged
+                });
+        }
+    }
+}
+
 /**
  * init for mazes.html
  */
@@ -373,5 +391,7 @@ function init() {
         }
         $("#versionInfo").html("Latest Build: " + s);
     });
+
+    var intervalID = setInterval(refreshCallback, 15000);
 }
 

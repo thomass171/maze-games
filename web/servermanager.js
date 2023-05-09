@@ -1,5 +1,7 @@
 
 
+// rowid is key
+var allServerMap = new Map();
 
 /**
  * Create a HTML table for list of server
@@ -38,8 +40,7 @@ function loadServerList() {
             //console.log(data);
             removeTableRows("tab_server");
 
-            // rowid is key
-            var allServerMap = new Map();
+            allServerMap = new Map();
             data.serverInstanceList.forEach(function(s) {
                 //console.log("s:",s);
                 var rowid = addTableRow('bod_server');
