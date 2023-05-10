@@ -123,6 +123,18 @@ function createButton(content, optclass = "") {
     return {html: html, id: id};
 }
 
+function createCanvas(width, height, optclass = "") {
+    var id = "canvas_" + getUniqueId();
+    var html = '<canvas class=" ' + optclass + '" ';
+    html += 'id="' + id + '" ';
+    html += 'width="' + width + '" ';
+    html += 'height="' + height + '" ';
+    html += ">";
+    html += '</canvas>';
+
+    return {html: html, id: id};
+}
+
 function addListItem(listid, content, optclass) {
     var item_id = "list_item_" + getUniqueId();
     var item = "<li id='" + item_id + "' class=' " + optclass + " '>"

@@ -297,14 +297,13 @@ function addLoadedMazeGrid(m) {
 }
 
 function loadMazes() {
-    httpGet(mazeshost + "/mazes/mazes?sort=id", null,
-        function(isJson, jsonObject) {
-            //console.log(jsonObject);
-            jsonObject._embedded.mazes.forEach(addLoadedMazeGrid);
+    httpGet(mazeshost + "/mazes/mazes?sort=id", null).then(r => {
+
+            //console.log(r);
+            r.data._embedded.mazes.forEach(addLoadedMazeGrid);
             mazeServiceState = "✅";
             refreshStates();
-        },
-        function() {
+        }, e => {
             // already logged
             mazeServiceState = "❌";
             refreshStates();
@@ -325,16 +324,16 @@ function findMazeById(mazeid) {
 function refreshCallback() {
     for (const [key, value] of allServerMap) {
 
-        var server = value;
+        // 'let' instead of 'var' creates a new instance each loop keeping the value for the 'then-closure'.
+        let server = value;
         if (server.state == "running") {
             var statusUrl = "https://" + sceneserverhost + ":443/sceneserver/" + (server.baseport + 1) + "/status";
 
-            httpGet(statusUrl, null,
-                function(isJson, data) {
-                    console.log(data);
-                },
-                function() {
-                    // already logged
+            httpGet(statusUrl, null).then(r => {
+                    console.log(r.data);
+                    allServerCpuLoad.get(server.id).push(r.data.cpuload);
+                    drawDiagram(allServerCpuLoad.get(server.id), server.canvasLoadId);
+                    $("#" + server.divPlayerId).html("" + r.data.clients.length);
                 });
         }
     }
@@ -393,5 +392,7 @@ function init() {
     });
 
     var intervalID = setInterval(refreshCallback, 15000);
+
+    //startDiagramDemo();
 }
 

@@ -2,6 +2,8 @@
 
 // rowid is key
 var allServerMap = new Map();
+// server.id is key, value is a double array. map survives a server list reload
+var allServerCpuLoad = new Map();
 
 /**
  * Create a HTML table for list of server
@@ -35,13 +37,13 @@ function startServer(gridname) {
  * Load list of server
  */
 function loadServerList() {
-    httpGet(servermanagerhost + "/server/list", null,
-        function(isJson, data) {
+    httpGet(servermanagerhost + "/server/list", null).then(r => {
+
             //console.log(data);
             removeTableRows("tab_server");
 
             allServerMap = new Map();
-            data.serverInstanceList.forEach(function(s) {
+            r.data.serverInstanceList.forEach(function(s) {
                 //console.log("s:",s);
                 var rowid = addTableRow('bod_server');
                 allServerMap.set(rowid, s);
@@ -50,8 +52,14 @@ function loadServerList() {
                 var colid = addTableCol(s.baseport, rowid, "");
                 var colid = addTableCol(s.upTime, rowid, "");
                 var colid = addTableCol(s.state, rowid, "");
+                var div_player = createDiv("P", "");
+                addTableCol(div_player.html, rowid, "");
+                s.divPlayerId = div_player.id;
+                var canvas_load = createCanvas(300, 50, "");
+                addTableCol(canvas_load.html, rowid, "");
+                s.canvasLoadId = canvas_load.id;
                 var btn_stop = createButton("Stop", "w3-button w3-round w3-khaki");
-                var colid = addTableCol(btn_stop.html, rowid, "");
+                addTableCol(btn_stop.html, rowid, "");
                 var btn_join = createButton("Join", "w3-button w3-round w3-khaki");
                 addTableCol(btn_join.html, rowid, "");
                 var btn_joinvr = createButton("Join VR", "w3-button w3-round w3-khaki");
@@ -83,11 +91,15 @@ function loadServerList() {
                      // the URL complies to the reverse proxy setup on the server
                      launchMazeForJoining(true, sceneserverhost + ":443:/sceneserver/" + (server.baseport+1) + "/connect");
                 });
+
+                // keep existing values
+                if (!allServerCpuLoad.has(s.id)) {
+                    allServerCpuLoad.set(s.id, []);
+                }
             });
             serverManagerState = "✅";
             refreshStates();
-        },
-        function() {
+        }, e => {
             // already logged
             serverManagerState = "❌";
             refreshStates();

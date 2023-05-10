@@ -3,16 +3,30 @@
  * errorHandler is called on network error or HTTP code != 2xx. Otherwise successHandler
  * is called.
  */
-function httpGet(uri, params, successHandler, errorHandler) {
+function httpGet(uri, params) {
     // GET is default for fetch
-    fetch(uri)
-       .then(response => {
-           processResponse(response, successHandler);
+    return new Promise(function(resolve, reject) {
+        fetch(uri).then(response => {
+           if (!response.ok) {
+               throw new Error("Network response was not OK");
+           }
+           const contentType = response.headers.get("content-type");
+           if (contentType && isContentTypeJson(contentType)) {
+               response.json().then(data => {
+                   //console.log("resolving json");
+                   resolve({isJson:true, data:data});
+               });
+           } else {
+               response.text().then(text => {
+                   resolve({isJson:false, text:text});
+               });
+           }
         })
         .catch((error) => {
             console.log("fetch returned error from uri " + uri, error);
-            errorHandler();
+            reject(error);
         });
+    });
 }
 
 function isContentTypeJson(contentType) {
