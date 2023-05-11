@@ -8,5 +8,4 @@ operation a professional hosting service should be used.
 
 * save in edit view needs update grid preview
 * Avoid edit reenter from different maze when unsaved
-* launch VR
 * unlock locked grids
