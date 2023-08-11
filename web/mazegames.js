@@ -86,7 +86,7 @@ function switchView(view, mazeName) {
 /**
  * Add a maze grid list element.
  */
-function addMazeListElement(maze, contentProvider, optionalElement) {
+function addMazeListElement(maze, listname, contentProvider, optionalElement) {
 
     var table = createTable(null, "mazetable");
     var content = "<div>";
@@ -128,7 +128,7 @@ function addMazeListElement(maze, contentProvider, optionalElement) {
 
     content += "</div>"; // end of content
 
-    var listitemId = addListItem("mazelist", content, "w3-bar");
+    var listitemId = addListItem(listname, content, "w3-bar");
     populateHtmlTableForMaze(table.bodyid, maze, previewCellBuilder);
 
     $("#"+btn_edit.id).click(function() {
@@ -286,14 +286,15 @@ async function postData(url = '', data = {}) {
 
 function addLoadedMazeGrid(m) {
     m.grid = m.grid.replaceAll("\\n","\n");
-    //console.log("m:",m);
+    console.log("m:",m);
     var maze = Maze.buildFromGrid(m.grid);
     maze.name = m.name;
     maze.description = m.description;
     maze.selfHref = m._links.self.href;
     maze.locked = m.locked;
+    maze.type = m.type;
     allMazesMap.set(m.name, maze);
-    addMazeListElement(maze);
+    addMazeListElement(maze, "mazelist-" + maze.type);
 }
 
 function loadMazes() {

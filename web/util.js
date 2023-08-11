@@ -169,6 +169,18 @@ function hideElement(elementId) {
     $('#' + elementId).addClass('w3-hide');
 }
 
+/**
+ * From https://www.w3schools.com/w3css/w3css_accordions.asp
+ */
+function toggleShow(id) {
+    var x = document.getElementById(id);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+
  function substringAfterLast(str, sub) {
     var n = str.lastIndexOf(sub);
     if (n == -1) {

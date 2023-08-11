@@ -68,7 +68,8 @@ w3-container: HTML container with 16px left and right padding (Container Class)
         All maze games are based on the same maze game engine that uses a generic simple ASCII
         format for defining maze level. The game objective and all possible actions
         are derived from the level definition. So several different styles of maze games
-        can be defined.
+        can be defined. The following are just a few examples. See <i onclick="switchView('listview')">Games</i>
+        for a full list of all maze grids available.
         <div class="w3-row-padding w3-padding-16">
             <!--Sokoban-->
             <div class="w3-third">
@@ -95,10 +96,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         <p></p>
 
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox')">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox',null,null)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox')">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox',null,null)">Launch VR
                         </button>
 
                         <p></p>
@@ -122,10 +123,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox1')">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox1',null,null)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox1')">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox1',null,null)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -147,10 +148,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox2')">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox2',null,null)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox2')">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox2',null,null)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -168,17 +169,18 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                             <img src="Maze-D-Preview.png" style="width:100%">
                         </div>
                         <p>A maze with several rooms connected with corridors. Collect all diamonds.
-                            Uses the theme 'dungeon' which displays massive walls and a ceiling with simple wood textures.
+                            Uses the theme 'dungeon' which displays massive walls and a ceiling with simple wood
+                            textures.
                         </p>
                         <select class="w3-select  " id="sel_sceneBox3">
                             <option value="maze/Maze-D-80x25.txt">D 80x25</option>
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox3','dungeon')">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox3','dungeon',null)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox3','dungeon')">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox3','dungeon',null)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -200,10 +202,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox4','dungeon-art')">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox4','dungeon-art',null)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox4','dungeon-art')">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox4','dungeon-art',null)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -214,8 +216,26 @@ w3-container: HTML container with 16px left and right padding (Container Class)
 
     <div id="listview">
         <div class="w3-container">
-            <h1>Maze List</h1>
-            <ul id="mazelist" class="w3-ul w3-card-4"></ul>
+            This is a list of all maze grids found in the database, grouped by their type.
+            <!-- w3.css accordions for grouping-->
+            <div>
+                <button onclick="toggleShow('mazelist-S')" class="w3-btn w3-block w3-black w3-left-align">Sokoban
+                </button>
+                <ul id="mazelist-S" class="w3-ul w3-card-4 w3-hide w3-show"></ul>
+            </div>
+            <div>
+                <button onclick="toggleShow('mazelist-M')" class="w3-btn w3-block w3-black w3-left-align">Maze</button>
+                <ul id="mazelist-M" class="w3-ul w3-card-4 w3-hide w3-show"></ul>
+            </div>
+            <div>
+                <button onclick="toggleShow('mazelist-P')" class="w3-btn w3-block w3-black w3-left-align">P-Man</button>
+                <ul id="mazelist-P" class="w3-ul w3-card-4 w3-hide w3-show"></ul>
+            </div>
+            <div>
+                <button onclick="toggleShow('mazelist-D')" class="w3-btn w3-block w3-black w3-left-align">Dungeon
+                </button>
+                <ul id="mazelist-D" class="w3-ul w3-card-4 w3-hide w3-show"></ul>
+            </div>
         </div>
     </div>
 

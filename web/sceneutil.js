@@ -9,7 +9,7 @@ function addCommonArgs(args, prefix) {
     args.set("devmode",$("#chk_devMode").prop("checked"));
 }
 
-function launchMazeScene(vr,boxname,theme) {
+function launchMazeScene(vr,boxname,theme,teamSize) {
 
     var args = new Map();
     addCommonArgs(args, "");
@@ -17,6 +17,9 @@ function launchMazeScene(vr,boxname,theme) {
     args.set("enableVR",vr);
     if (theme != null) {
         args.set("theme",theme);
+    }
+    if (teamSize != null) {
+        args.set("teamSize",teamSize);
     }
     launchScene("MazeScene",args);
 }
