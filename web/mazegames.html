@@ -177,10 +177,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox3','dungeon',null)">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox3','dungeon',1)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox3','dungeon',null)">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox3','dungeon',1)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -202,10 +202,10 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                         </select>
                         <p></p>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(false,'sel_sceneBox4','dungeon-art',null)">Launch
+                                onclick="launchMazeScene(false,'sel_sceneBox4','dungeon-art',1)">Launch
                         </button>
                         <button class=" w3-button  w3-round w3-khaki "
-                                onclick="launchMazeScene(true,'sel_sceneBox4','dungeon-art',null)">Launch VR
+                                onclick="launchMazeScene(true,'sel_sceneBox4','dungeon-art',1)">Launch VR
                         </button>
                         <p></p>
                     </div>
@@ -273,7 +273,7 @@ w3-container: HTML container with 16px left and right padding (Container Class)
                 </div>
                 <div class="w3-half">
                     <button id="btn_start" class=" w3-button w3-round w3-khaki "
-                            onclick="startServer($('#sel_gridBox').val())">Start
+                            onclick="startServer($('#sel_gridBox').val(), '1')">Start
                     </button>
                 </div>
             </div>

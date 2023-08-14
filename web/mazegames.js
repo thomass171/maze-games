@@ -84,7 +84,10 @@ function switchView(view, mazeName) {
 }
 
 /**
- * Add a maze grid list element.
+ * Add a maze grid element to one of the lists. Includes
+ * - a preview (optional TODO)
+ * - a button bar
+ * Non server launches will use team size 1.
  */
 function addMazeListElement(maze, listname, contentProvider, optionalElement) {
 
@@ -157,7 +160,7 @@ function addMazeListElement(maze, listname, contentProvider, optionalElement) {
     $("#"+btn_launchserver.id).click(function() {
         var maze = getMazeByListItemId(this.dataset.listitemid);
         console.log("btn_launchserver:mazename="+maze.name);
-        startServer(maze.selfHref.replaceAll("http://","https://"));
+        startServer(maze.selfHref.replaceAll("http://","https://"), "2");
         switchView("serverview");
     });
 

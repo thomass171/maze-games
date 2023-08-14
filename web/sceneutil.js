@@ -26,6 +26,7 @@ function launchMazeScene(vr,boxname,theme,teamSize) {
 
 /**
  * Launch scene with remote grid.
+ * Always sets team size 1 because it is no server to avoid (currently confusing) team bots.
  */
 function launchMazeSceneFromList(vr, hrefOfGrid) {
 
@@ -33,6 +34,7 @@ function launchMazeSceneFromList(vr, hrefOfGrid) {
     addCommonArgs(args, "");
     args.set("initialMaze", hrefOfGrid);
     args.set("enableVR",vr);
+    args.set("teamSize",1);
     launchScene("MazeScene",args);
 }
 

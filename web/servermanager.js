@@ -19,10 +19,10 @@ function populateHtmlTableForServer(bodyid, maze, cellbuilder) {
 /**
  * Start a new server. 'gridname' might be a href to a remote grid (Needs to start with 'http').
  */
-function startServer(gridname) {
+function startServer(gridname, teamSize) {
     $("#btn_start").prop("disabled", true);
     console.log(gridname);
-    httpPost(servermanagerhost + "/server?scenename=de.yard.threed.maze.MazeScene&gridname="+gridname, null,
+    httpPost(servermanagerhost + "/server?scenename=de.yard.threed.maze.MazeScene&arg.initialMaze="+gridname+"&arg.teamSize="+teamSize, null,
         function(isJson, data) {
             console.log(data); // JSON data parsed by `data.json()` call
             loadServerList();
@@ -44,10 +44,10 @@ function loadServerList() {
 
             allServerMap = new Map();
             r.data.serverInstanceList.forEach(function(s) {
-                //console.log("s:",s);
+                console.log("s:",s);
                 var rowid = addTableRow('bod_server');
                 allServerMap.set(rowid, s);
-                var colid = addTableCol(enhanceGridname(s.gridname), rowid, "");
+                var colid = addTableCol(enhanceGridname(s.argMap['initialMaze']), rowid, "");
                 var colid = addTableCol(s.started, rowid, "");
                 var colid = addTableCol(s.baseport, rowid, "");
                 var colid = addTableCol(s.upTime, rowid, "");
