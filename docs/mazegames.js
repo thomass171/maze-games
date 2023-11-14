@@ -3,7 +3,7 @@
  */
 
 //var host = "http://localhost:8080";
-var host = "https://ts171.de/tcp-22";
+var host = "https://yard.de/tcp-22";
 var mazeshost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var servermanagerhost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var sceneserverhost = "ubuntu-server.udehlavj1efjeuqv.myfritz.net";
