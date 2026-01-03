@@ -2,8 +2,9 @@
  * JS related to mazegames.html
  */
 
-//var host = "http://localhost:8080";
-var host = "https://yard.de/tcp-22";
+// was ts171.de once, then yard.de, but due to DOS protection changed again
+var host = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net/publicweb/tcp-22";
+
 var mazeshost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var servermanagerhost = "https://ubuntu-server.udehlavj1efjeuqv.myfritz.net";
 var sceneserverhost = "ubuntu-server.udehlavj1efjeuqv.myfritz.net";
